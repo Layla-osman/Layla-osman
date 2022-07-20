@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06acff5c-348f-4cb7-bed3-59f823860c69" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,13 +16,19 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="481" column="44" selection-start-line="481" selection-start-column="44" selection-end-line="481" selection-end-column="44" />
+            <state relative-caret-position="346">
+              <caret line="483" column="29" lean-forward="true" selection-start-line="483" selection-start-column="29" selection-end-line="483" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>fetch</find>
+      <find>get_website_order_date</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -35,8 +42,8 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="72" />
-    <option name="y" value="180" />
-    <option name="width" value="808" />
+    <option name="y" value="125" />
+    <option name="width" value="798" />
     <option name="height" value="643" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -118,8 +125,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="481" column="44" selection-start-line="481" selection-start-column="44" selection-end-line="481" selection-end-column="44" />
+        <state relative-caret-position="346">
+          <caret line="483" column="29" lean-forward="true" selection-start-line="483" selection-start-column="29" selection-end-line="483" selection-end-column="29" />
         </state>
       </provider>
     </entry>

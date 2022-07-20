@@ -449,7 +449,7 @@ class SaleOrder(models.Model):
             ('website_order_id', '>', 0), ('company_id', '=', company_id),
             ('state', 'in', ('sale', 'done')),
         ], limit=1)
-        print(order.name)
+        print('########################',order.name)
         self_in_tz = self.with_context(tz=(self.env.user.tz or 'UTC'))
         if order:
             date_begin = fields.Datetime.from_string(order.date_order + timedelta(seconds=1))
@@ -473,13 +473,14 @@ class SaleOrder(models.Model):
         current_time = fields.Datetime.now()
         self_in_tz = self.with_context(tz=(self.env.user.tz or 'UTC'))
         current_time_in_tz = fields.Datetime.context_timestamp(self_in_tz, current_time)
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',current_time_in_tz)
         data = {
             # 'auth_token': key,
             'date_from': "2022-02-09 00:00:00",
             'date_to': current_time_in_tz,
         }
         x = requests.get(url=website, params=data, auth=(username, password))
-        print('@@@@@@@@@@@@@@@@@@@@@@@@',x) 
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@',x)
         text = x.text if not (x.text == '') else x.status_code
         result = json.loads(text)
 
