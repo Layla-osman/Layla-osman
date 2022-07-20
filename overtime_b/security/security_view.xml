@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.module.category" id="model_overtime">
+            <field name="name">Overtime</field>
+        </record>
+        <!-- group of general manager -->
+        <record id="group_manager" model="res.groups">
+            <field name="name">Overtime General Manager</field>
+            <field name="category_id" ref="overtime_b.model_overtime"/>
+        </record>
+
+        <!-- group of Overtime Approval -->
+        <record id="group_approval" model="res.groups">
+            <field name="name">Overtime Approval</field>
+            <field name="category_id" ref="overtime_b.model_overtime"/>
+        </record>
+
+        <!-- Record Rules -->
+        <record id="manager_access_rule_all" model="ir.rule">
+            <field name="name">Manager Access Rule</field>
+            <field name="model_id" ref="overtime_b.model_overtime_line"/>
+            <!--<field name="domain_force">['|',('user_id','=',user.id),('manager_id','=',user.id)]</field>-->
+            <field name="groups" eval="[(4, ref('overtime_b.group_manager'))]"/>
+        </record>
+        <record id="approval_access_rule_all" model="ir.rule">
+            <field name="name">Approval Access Rule</field>
+            <field name="model_id" ref="overtime_b.model_overtime"/>
+            <!--<field name="domain_force">['|',('user_id','=',user.id),('manager_id','=',user.id)]</field>-->
+            <field name="groups" eval="[(4, ref('overtime_b.group_approval'))]"/>
+        </record>
+    </data>
+</odoo>

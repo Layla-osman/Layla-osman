@@ -1,0 +1,12 @@
+<odoo>
+            <record model="ir.module.category" id="model_holiday_custom">
+            <field name="name">Vacation Sale</field>
+        </record>
+
+    <record id="vacation_sale_multi_company" model="ir.rule">
+        <field name="name">Vacation Sale global rule</field>
+        <field name="model_id" ref="model_holiday_custom"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
+

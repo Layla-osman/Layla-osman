@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_clearance_approval">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure">
+                                <div class="row row-centered">
+                                    <div class="col-md-12 col-centered">
+                                        <group string="Custody Clearance Approval">
+                                            <table class="table" style="direction: ltr;">
+                                                <t t-set="sr" t-value="1"/>
+                                                <t t-set="total" t-value="0"/>
+                                                <tr class="text-center">
+                                                    <td colspan="12" style="border: 1px solid black;">
+                                                        <h4>
+                                                            <u>
+                                                                <strong>Custody Clearance Approval</strong>
+                                                            </u>
+                                                        </h4>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Custody Clearance Details</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-left"
+                                                        colspan="2">
+                                                        <span t-field="o.name"/>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Date :</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-left">
+                                                        <span t-field="o.cc_date"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Requester :</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-left"
+                                                        colspan="4">
+                                                        <span t-field="o.requester"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Amount:</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-left"
+                                                        colspan="2">
+                                                        <t t-esc="'{0:,.2f}'.format(int(o.clearance_amount))"/>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-left"
+                                                        colspan="2">
+                                                        <strong>
+                                                            <span t-field="o.clearance_currency.narration_ar_un"/>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Amount in Words :</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-left"
+                                                        colspan="4">
+                                                        <span t-field="o.clearance_amount_words"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;" colspan="5">
+                                                        <strong>Reason:</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;" class="text-left"
+                                                        colspan="5">
+                                                        <span t-field="o.reason"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-right">Number</th>
+                                                    <th class="text-right">Narration</th>
+                                                    <th class="text-right">Cost Center</th>
+                                                    <th class="text-right">Amount</th>
+                                                    <th class="text-right">Notes</th>
+                                                </tr>
+                                                <tr>
+                                                    <t t-foreach="o.custody_clearance_line_ids" t-as="m">
+                                                        <tr>
+                                                            <td style="border: 1 px solid black;">
+                                                                <span t-esc="sr"/>
+                                                                <t t-set="sr" t-value="sr + 1"/>
+                                                            </td>
+                                                            <td style="border: 1 px solid black;">
+                                                                <span t-field="m.name"/>
+                                                            </td>
+                                                            <td style="border: 1 px solid black;">
+                                                                <span t-field="m.analytic_account"/>
+                                                            </td>
+                                                            <td style="border: 1 px solid black;">
+                                                                <t t-esc="'{0:,.2f}'.format(m.amount)"/>
+                                                                <t t-set="total" t-value="total + m.amount"/>
+                                                            </td>
+                                                            <td style="border: 1 px solid black;">
+                                                                <span t-field="m.notes"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <strong>Total:</strong>
+                                                    </td>
+                                                    <td colspan="2">
+                                                        <t t-esc="'{0:,.2f}'.format(total)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <strong>Difference:</strong>
+                                                    </td>
+                                                    <td colspan="2">
+                                                        <t t-esc="'{0:,.2f}'.format(o.difference_amount)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Department Manager:</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-center">
+                                                        <span t-field="o.dp_app_id.name"/>
+                                                    </td>
+<!--                                                    <td style="border: 1 px solid black;">-->
+<!--                                                        <strong>الامضاء:</strong>-->
+<!--                                                    </td>-->
+<!--                                                    <td style="border: 1 px solid black;" class="text-center"-->
+<!--                                                        colspan="2">-->
+<!--                                                        <span t-if="o.mn_app_id.resized_user_signature"-->
+<!--                                                              t-field="o.mn_app_id.resized_user_signature"-->
+<!--                                                              t-field-options='{"widget": "image"}'/>-->
+<!--                                                    </td>-->
+                                                </tr>
+                                                <tr>
+                                                    <!--<td style="border: 1 px solid black;">-->
+                                                        <!--<strong>المحاسب:</strong>-->
+                                                    <!--</td>-->
+                                                    <!--<td style="border: 1 px solid black;" class="text-center">-->
+                                                        <!--<span t-field="o.at_app_id.name"/>-->
+                                                    <!--</td>-->
+                                                    <!--<td style="border: 1 px solid black;">-->
+                                                        <!--<strong>الامضاء:</strong>-->
+                                                    <!--</td>-->
+                                                    <!--<td style="border: 1 px solid black;" class="text-center"-->
+                                                        <!--colspan="2">-->
+                                                        <!--<span t-if="o.at_app_id.resized_user_signature"-->
+                                                              <!--t-field="o.at_app_id.resized_user_signature"-->
+                                                              <!--t-field-options='{"widget": "image"}'/>-->
+                                                    <!--</td>-->
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Finance Manager:</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-center"
+                                                        colspan="2">
+                                                        <span t-field="o.fm_app_id.name"/>
+                                                    </td>
+<!--                                                    <td style="border: 1 px solid black;">-->
+<!--                                                        <strong>الامضاء:</strong>-->
+<!--                                                    </td>-->
+<!--                                                    <td style="border: 1 px solid black;" class="text-center"-->
+<!--                                                        colspan="2">-->
+<!--                                                        <span t-if="o.au_app_id.resized_user_signature"-->
+<!--                                                              t-field="o.au_app_id.resized_user_signature"-->
+<!--                                                              t-field-options='{"widget": "image"}'/>-->
+<!--                                                    </td>-->
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Requester:</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-center"
+                                                        colspan="2">
+                                                        <span t-field="o.employee_id.name"/>
+                                                    </td>
+<!--                                                    <td style="border: 1 px solid black;">-->
+<!--                                                        <strong>الامضاء:</strong>-->
+<!--                                                    </td>-->
+<!--                                                    <td style="border: 1 px solid black;" class="text-center"-->
+<!--                                                        colspan="2">-->
+<!--                                                        <span t-if="o.fm_app_id.resized_user_signature"-->
+<!--                                                              t-field="o.fm_app_id.resized_user_signature"-->
+<!--                                                              t-field-options='{"widget": "image"}'/>-->
+<!--                                                    </td>-->
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                    <td style="border: none;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1 px solid black;">
+                                                        <strong>Payment/Receipt Diff:</strong>
+                                                    </td>
+                                                    <td style="border: 1 px solid black;" class="text-center"
+                                                        colspan="4">
+                                                        <span t-field="o.journal_id"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <!--<td style="border: 1 px solid black;">-->
+                                                        <!--<strong>رئيس الحسابات:</strong>-->
+                                                    <!--</td>-->
+                                                    <!--<td style="border: 1 px solid black;" class="text-center"-->
+                                                        <!--colspan="4">-->
+                                                    <!--</td>-->
+                                                </tr>
+                                            </table>
+                                        </group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

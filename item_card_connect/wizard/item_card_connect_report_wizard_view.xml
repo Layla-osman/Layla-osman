@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="item_card_connect_report_wizard_view_form" model="ir.ui.view">
+            <field name="name">item.card.connect.report.wizard.view.form</field>
+            <field name="model">item.card.connect.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Item Card Report">
+                    <sheet>
+                        <group col="2">
+                            <gr9oup>
+                                <field name="from_date" required="True"/>
+                                <field name="product_id" required="True"/>
+                            </gr9oup>
+                            <group>
+                                <field name="to_date" required="True"/>
+                                <field name="location_id" required="True"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="get_report" string="Print" type="object" class="btn-primary" icon="fa-file-pdf-o"/>
+                            OR
+                            <button string="Cancel" class="btn-danger" special="cancel" icon="fa-close"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="item_card_connect_report_wizard_action"
+                    name="Item Card connect Report"
+                    res_model="item.card.connect.report.wizard"
+                    view_mode="form"
+                    target="new"
+        />
+
+        <menuitem
+                id="item_card_connect_report_menu"
+                name="Item Card  connect Report"
+                parent="stock.menu_warehouse_report"
+                action="item_card_connect_report_wizard_action"
+                sequence="1000"
+        />
+
+    </data>
+</odoo>

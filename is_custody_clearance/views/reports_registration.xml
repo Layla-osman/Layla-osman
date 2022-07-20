@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Register Clearance Approval Form Report -->
+        <report id="report_clearance_approval_form"
+                string="Custody Clearance Approval"
+                model="custody.clearance"
+                report_type="qweb-pdf"
+                file="is_custody_clearance_14.report_clearance_approval"
+                name="is_custody_clearance_14.report_clearance_approval"
+                menu="True"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Register Finance Approval Form Report -->
+        <report id="report_finance_approval_form"
+                string="Finance Approval"
+                model="finance.approval"
+                report_type="qweb-pdf"
+                file="is_accounting_approval.report_finance_approval"
+                name="is_accounting_approval.report_finance_approval"
+                menu="True"
+        />
+    </data>
+</odoo>

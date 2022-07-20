@@ -1,0 +1,132 @@
+<odoo>
+    <data>
+        <record id="penalty_teamplate_id" model="mail.template">
+            <field name="name">Hr Penalty :penalty template</field>
+            <field name="email_from">${(object.create_uid.email)|safe}</field>
+            <field name="email_to">${(object.employee_id.address_id.email)}</field>
+            <field name="model_id" ref="hr_penalty.model_hr_penalty"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                        <table width='800'>
+                            <tr>
+                                <td>
+                                    <strong>Employee:</strong>
+                                </td>
+
+                                <td>
+                                    ${object.employee_id.name}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>Job:</strong>
+                                </td>
+
+                                <td>
+                                    ${object.employee_id.job_id.name}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>Department:</strong>
+                                </td>
+
+                                <td>
+                                    ${object.employee_id.department_id.name}
+                                </td>
+                            </tr>
+
+                        </table>
+                        <!-- <br></br> -->
+                        <br/>
+                        <h6>Violation Details:</h6>
+                        <p>
+                        </p>
+                        <br/>
+                        <br/>
+                        % if object.employee_id.penalty_ids:
+                        <table width='800' style="border: 1px solid black;" class="text-center">
+                            <thead>
+                                <tr style="border: 1px solid black;">
+                                    <th colspan="4" class="text-center">
+                                        <strong>List of previous violations</strong>
+                                    </th>
+                                </tr>
+                                <tr style="border: 1px solid black;">
+                                    <th>
+                                        <strong>Violation Date</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Violation Type</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Pnishment</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <br/>
+                            <br/>
+
+                            <tbody>
+                                % for penalty in object.employee_id.penalty_ids:
+                                % if object.id != penalty.id:
+                                <tr style="border: 1px solid black;">
+                                    <td>${penalty.violation_date}</td>
+                                    <td>${penalty.violation_id.name}</td>
+                                    <td>${penalty.punishment_ids.name}</td>
+                                </tr>
+                                % endif
+                                % endfor
+                            </tbody>
+                        </table>
+                        % endif
+                        <br/>
+                        <br/>
+                        <strong>The Punishment: ${object.punishment_ids.name}</strong>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <strong>Mr:</strong>
+                        ----------------------------------------------------------------
+                        <br/>
+                        <br/>
+                        <p>Referring to your irregularities in the work, including: The above, as such is considered to
+                            be contrary to the applicable regulations and regulations, you may decide to take the above
+                            actions against you and warn you not to repeat this in the future
+                        </p>
+                        <h6>Penalty to be imposed in case of repeated violation:
+                            <span>${object.next_punshment_id.name or ' '}</span>
+                        </h6>
+
+                        <br/>
+                        <br/>
+                        <table style="width: 100%;">
+                            <tr>
+                                <th>Employee signature :</th>
+                                <td>
+                                    <span style="width:1rem;"></span>
+                                </td>
+                                <th>Director's Manager signature:</th>
+                                <td>
+                                    <span style="width:1rem;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Employee affair:</th>
+                                <td>${object.confirming_employee_id.name or ' '}</td>
+                                <th>Hr Manager :</th>
+                                <td>${object.approving_employee_id.name or ''}</td>
+                            </tr>
+                        </table>
+                    </p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,467 @@
+<odoo>
+    <data>
+        <record id="paperformat_pos_thermal" model="report.paperformat">
+            <field name="name">PoS Thermal Print</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">80</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+            id="sale_order_invoice_receipt"
+            model="sale.order"
+            string="Sales Invoice Receipt"
+            name="pos_receipt_changes.report_sales_invoice_thermal"
+            file="pos_receipt_changes.report_sales_invoice_thermal"
+            report_type="qweb-pdf"
+            paperformat="pos_receipt_changes.paperformat_pos_thermal"
+        />
+        <report
+            id="sale_order_gift_receipt"
+            model="sale.order"
+            string="Gift Receipt"
+            name="pos_receipt_changes.report_sales_gift_thermal"
+            file="pos_receipt_changes.report_sales_gift_thermal"
+            report_type="qweb-pdf"
+            paperformat="pos_receipt_changes.paperformat_pos_thermal"
+        />
+        <report
+            id="pos_order_return_receipt"
+            model="pos.order"
+            string="Return Receipt"
+            name="pos_receipt_changes.report_pos_return_thermal"
+            file="pos_receipt_changes.report_pos_return_thermal"
+            report_type="qweb-pdf"
+            paperformat="pos_receipt_changes.paperformat_pos_thermal"
+        />
+        <report
+            id="pos_session_z_report"
+            model="pos.session"
+            string="Session Report"
+            name="pos_receipt_changes.report_pos_session_z_report"
+            file="pos_receipt_changes.report_pos_session_z_report"
+            report_type="qweb-pdf"
+            paperformat="pos_receipt_changes.paperformat_pos_thermal"
+        />
+        <template id="report_pos_session_z_report">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row mb32">
+                            <div class="col-12 text-center mw-100 mb-2">
+                                <img class="text-center"
+                                     t-att-src="'/logo.png?company=%s' % docs[0].create_uid.company_id.id"
+                                     t-att-alt="docs[0].create_uid.company_id.name"/>
+                            </div>
+                        </div>
+                        <h2 class="text-center"><strong>Session Report</strong></h2>
+
+                        <t t-set="result" t-value="docs.get_z_report_details()"/>
+                        <t t-set="journals_list" t-value="result[0]"/>
+                        <t t-set="total_value" t-value="result[1]"/>
+                        <t t-set="start_date" t-value="result[2]"/>
+                        <t t-set="end_date" t-value="result[3]"/>
+                        <t t-set="refund_payments" t-value="result[4]"/>
+                        <t t-set="refund_total" t-value="result[5]"/>
+
+                        <table style="width: 100%" class="mt32">
+                            <tbody>
+                                <tr><td>
+                                    <strong>From: </strong>
+                                    <span t-esc="start_date"/>
+                                </td></tr>
+                                <tr style="margin-bottom: 100px;"><td>
+                                    <strong>To: </strong>
+                                    <span t-esc="end_date"/>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                        <table style="width: 100%" class="mt32">
+                            <tbody>
+                                <t t-foreach="journals_list" t-as="i" style="border-bottom: 1px solid;">
+                                    <tr>
+                                        <td><span t-esc="journals_list[i]['name']"/></td>
+                                        <td class="text-right"><span t-esc="journals_list[i]['amount']" t-options="{'widget': 'monetary', 'display_currency': docs[0].currency_id}"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <table style="width: 100%" class="mt32">
+                            <tbody>
+                                <tr style="font-weight: bold; margin-top: 100px;">
+                                    <td><h5><strong>TOTAL</strong></h5></td>
+                                    <td class="text-right">
+                                        <h5><strong>
+                                            <span t-esc="total_value"
+                                              t-options="{'widget': 'monetary', 'display_currency': docs[0].currency_id}"/>
+                                        </strong></h5>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <t t-if="refund_total">
+                            <hr/>
+                            <h5 class="text-center"><strong><u>Refund Sales</u></strong></h5>
+                            <table style="width: 100%" class="mt32">
+                                <tbody>
+                                    <t t-foreach="refund_payments" t-as="i" style="border-bottom: 1px solid;">
+                                        <tr>
+                                            <td><span t-esc="refund_payments[i]['name']"/></td>
+                                            <td class="text-right"><span t-esc="refund_payments[i]['amount']" t-options="{'widget': 'monetary', 'display_currency': docs[0].currency_id}"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <table style="width: 100%" class="mt32">
+                                <tbody>
+                                    <tr style="font-weight: bold; margin-top: 100px;">
+                                        <td><h5><strong>TOTAL</strong></h5></td>
+                                        <td class="text-right">
+                                            <h5><strong>
+                                                <span t-esc="refund_total"
+                                                  t-options="{'widget': 'monetary', 'display_currency': docs[0].currency_id}"/>
+                                            </strong></h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <template id="report_sales_invoice_thermal">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                <t t-foreach="o.invoice_ids" t-as="i">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row mb32">
+                                <div class="col-12 text-center mw-100 mb-2">
+                                    <img class="text-center" t-att-src="'/logo.png?company=%s' % o.company_id.id"
+                                         t-att-alt="o.company_id.name"/><br/>
+                                    <t t-if="o.company_id.name == 'RullArt Qatar'">
+                                        <span>Rullart , Vendome Palace</span><br/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div id="company-phone" class="row mb8">
+                                <div class="col-6">Mob <span t-field="o.company_id.partner_id.mobile"/></div>
+                                <div class="col-6">TEL <span t-field="o.company_id.partner_id.phone"/></div>
+                            </div>
+                            <h6 class="text-center"><strong>Invoice</strong></h6>
+                            <h6 class="text-center"><strong>Sales Order</strong></h6>
+                            <table class="mb16" style="border: 1px solid; font-weight: bold; width: 100%;">
+                                <tbody>
+                                    <tr>
+                                       <!-- <td style="padding: 5px;">Inv No.: <span t-field="i.number"/></td>
+                                        <td style="padding: 5px;">Ref: <span t-field="i.reference"/></td>-->
+                                    </tr>
+                                    <tr>
+                                       <!-- <td style="padding: 5px;" colspan="2">Order No.: <span t-esc="o.website_order_id or o.name"/></td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <!--<span><strong>Date: </strong><span t-field="i.date_invoice"/></span><br/>-->
+                                <span><strong>Deliveries Source: </strong><span t-field="o.sale_source"/></span><br/>
+                                <span><strong>Customer: </strong><span t-field="o.partner_id.name"/></span><br/>
+                                <span><strong>Mob: </strong><span t-esc="o.partner_id.mobile or o.partner_id.phone"/></span><br/>
+                                <span><strong>Address: </strong>
+                                    <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/></span>
+                            </div>
+                            <table style="width: 100%; border-bottom: 1px solid;">
+                                <thead style="border-top: 4px double; border-bottom: 4px double;">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="i.invoice_line_ids" t-as="line">
+                                        <tr style="font-weight: bold;">
+                                            <td><span t-field="line.product_id.default_code"/></td>
+                                            <td><span t-field="line.quantity"/></td>
+                                            <td><span t-field="line.price_unit"/></td>
+                                            <td><span t-field="line.price_subtotal"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><span t-field="line.product_id.name"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <table id="total" class="mt8 mb8"
+                                   style="width: 100%; font-weight: bold; font-size: 1.2em; margin: 0 10px;">
+                                <tbody>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td><span t-field="i.amount_total"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Net</td>
+                                        <td><span t-field="i.amount_total"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--<div id="payment-methods" class="mt8">-->
+                            <!--    <t t-set="payments" t-value="i._get_payment_details()"/>-->
+                            <!--    <t t-foreach="payments" t-as="p">-->
+                            <!--        <div style="width: 32%; display: inline-block; font-weight: bold; border: 1px solid; box-sizing: border-box;" class="text-center">-->
+                            <!--            <span t-esc="p"/><br/>-->
+                            <!--            <span t-esc="payments[p]"/><br/>-->
+                            <!--        </div>-->
+                            <!--    </t>-->
+                            <!--</div>-->
+                           <!-- <table id="payment-methods" class="mt16" style="display: block; width: 100%;">
+                                <t t-set="payments" t-value="i._get_payment_details()"/>
+                                <tr>
+                                    <t t-foreach="payments" t-as="p">
+                                        <td class="text-center"
+                                            style="width: 33%; display: inline-block; font-weight: bold;">
+                                            <div style="border: 1px solid;">
+                                                <span t-esc="p"/><br/>
+                                            </div>
+                                            <div style="border: 1px solid;">
+                                                <span t-esc="payments[p]"/><br/>
+                                            </div>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </table>-->
+                            <div class="footer-exchange text-center mt16">
+                                <span style="font-size: 1.2em;">
+                                    <strong>Exchange &amp; and Refund POLICY</strong></span><br/>
+                                <span>Exchange and Refund will happen only when the original receipt is submitted and
+                                    items purchased in regular price can be refunded within 14 days</span><br/>
+                                <span class="text-right">الاستبدال والاسترجاع من خلال الفاتورة الاصلية في غير فترات العرض التجارية والتنزيلات يكون الاسترجاع والاستبدال خلال خمسة عشر يوما</span>
+                            </div><br/>
+                            <div class="footer-address text-center" style="font-weight: bold;">
+                                <t t-if="o.company_id.name == 'rullart'">
+                                        <span>www.rullart.com</span>
+                                </t>
+                                <t t-else="o.company_id.name == 'RullArt Qatar'">
+                                        <span>www.qatar.rullart.com</span>
+                                        <span>Vendome , Iusail ,Qatar</span><br/>
+                </t>
+                                <br/>
+                                <span>Thank you for shopping at rullart</span>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                </t>
+            </t>
+        </template>
+        <template id="report_sales_gift_thermal">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row mb32">
+                                <div class="col-12 text-center mw-100 mb-2">
+                                    <img class="text-center"
+                                         t-att-src="'/logo.png?company=%s' % o.company_id.id"
+                                         t-att-alt="o.company_id.name"/><br/>
+                                    <t t-if="o.company_id.name == 'RullArt Qatar'">
+                                        <span>Rullart , Vendome Palace</span><br/>
+                                    </t>
+                                </div>
+                            </div>
+                            <h3 class="text-center">GIFT</h3>
+                            <h6 class="text-center"><strong><u>Invoice</u></strong></h6>
+                            <div id="company-phone" class="row">
+                                <div class="col-6"><strong>Mob</strong>
+                                    <span t-field="o.company_id.partner_id.mobile"/></div>
+                                <div class="col-6"><strong>TEL</strong>
+                                    <span t-field="o.company_id.partner_id.phone"/></div>
+                            </div>
+                            <div id="order-ref" class="row">
+                                <div class="col-6"><strong>Ref:</strong>
+                                    <span t-field="o.name"/></div>
+                                <div class="col-6" t-if="o.website_order_id"><strong>Order No.:</strong>
+                                    <span t-esc="o.website_order_id"/></div>
+                            </div>
+                            <div><strong>Date:</strong> <span t-field="o.confirmation_date"/></div>
+                            <div>
+                                <span><strong>Customer: </strong><span t-field="o.partner_id.name"/></span><br/>
+                                <span><strong>Mob: </strong><span t-esc="o.partner_id.mobile or o.partner_id.phone"/></span><br/>
+                                <span><strong>Address: </strong>
+                                    <address t-field="o.partner_id"
+                                             t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/></span>
+                            </div>
+                            <table style="width: 100%; border-bottom: 1px solid;">
+                                <thead style="border-top: 4px double; border-bottom: 4px double;">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.order_line" t-as="line">
+                                        <tr style="font-weight: bold;">
+                                            <td><span t-field="line.product_id.default_code"/></td>
+                                            <td><span t-field="line.product_uom_qty"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><span t-field="line.product_id.name"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div class="footer-exchange text-center mt16">
+                                <span style="font-size: 1.2em;"><strong>Exchange &amp; and Refund POLICY</strong></span><br/>
+                                <span>Exchange and Refund will happen only when the original receipt is submitted and items purchased
+                                    in regular price can be refunded within 14 days</span><br/>
+                                <span class="text-right">الاستبدال والاسترجاع من خلال الفاتورة الاصلية في غير فترات العرض التجارية والتنزيلات يكون الاسترجاع والاستبدال خلال خمسة عشر يوما</span>
+                            </div><br/>
+                            <div class="footer-address text-center" style="font-weight: bold;">
+                                <span>Sharq Al Hamra Luxury Center B1-07</span><br/>
+                                <table width="100%">
+                                    <tr>
+                                        <td><span>rullart.com</span></td>
+                                        <td><span>@rullart</span></td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <span>Thank you for shopping at rullart</span>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="report_pos_return_thermal">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row mb32">
+                                <div class="col-12 text-center mw-100 mb-2">
+                                    <img class="text-center" t-att-src="'/logo.png?company=%s' % o.company_id.id"
+                                         t-att-alt="o.company_id.name"/>
+                                </div>
+                            </div>
+                            <h6 class="text-center"><strong><u>RETURN</u></strong></h6>
+                            <div id="company-phone" class="row">
+                                <div class="col-6"><strong>No.:</strong>
+                                    <span t-esc="o.pos_reference.split(' ')[1]"/></div>
+                                <div class="col-6"><strong>TEL</strong>
+                                    <span t-field="o.company_id.partner_id.phone"/></div>
+                            </div>
+                            <div>
+                                <span><strong>Date: </strong><span t-field="o.date_order"/></span><br/>
+                                <span><strong>Customer: </strong><span t-field="o.partner_id.name"/></span><br/>
+                                <span><strong>Mob: </strong><span t-esc="o.partner_id.mobile or o.partner_id.phone"/></span><br/>
+                                <span><strong>Address: </strong>
+                                    <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/></span>
+                            </div>
+                            <table style="width: 100%; border-bottom: 1px solid;">
+                                <thead style="border-top: 4px double; border-bottom: 4px double;">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Discount</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.lines" t-as="line">
+                                        <t t-set="receipt_calc" t-value="line.receipt_calc()"/>
+                                        <tr style="font-weight: bold;">
+                                            <td><span t-field="line.product_id.default_code"/></td>
+                                            <td><span t-esc="abs(line.qty)"/></td>
+                                            <td><span t-esc="receipt_calc['get_price_before_discount'].replace('-', '')"/></td>
+                                            <td><span t-esc="receipt_calc['get_discount_amount'].replace('-', '')"/></td>
+                                            <td><span t-esc="receipt_calc['get_price_after_discount']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5"><span t-field="line.product_id.name"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <table id="total" class="mt8 mb8"
+                                   style="width: 100%; font-weight: bold; font-size: 1.2em; margin: 0 10px;">
+                                <tbody>
+                                    <t t-set="receipt_calc" t-value="o.receipt_calc()"/>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td><span t-esc="receipt_calc['get_total_before_discount'].replace('-', '')"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount</td>
+                                        <td><span t-esc="receipt_calc['get_total_discount'].replace('-', '')"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net</td>
+                                        <td><span t-esc="receipt_calc['get_total_with_tax'].replace('-', '')"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--<div id="payment-methods" class="mt8">-->
+                            <!--    <t t-set="payments" t-value="i._get_payment_details()"/>-->
+                            <!--    <t t-foreach="payments" t-as="p">-->
+                            <!--        <div style="width: 32%; display: inline-block; font-weight: bold; border: 1px solid; box-sizing: border-box;" class="text-center">-->
+                            <!--            <span t-esc="p"/><br/>-->
+                            <!--            <span t-esc="payments[p]"/><br/>-->
+                            <!--        </div>-->
+                            <!--    </t>-->
+                            <!--</div>-->
+                            <table id="payment-methods" class="mt16" style="display: block; width: 100%;">
+                                <t t-set="payments" t-value="o._get_payment_details()"/>
+                                <tr>
+                                    <t t-foreach="payments" t-as="p">
+                                        <td class="text-center"
+                                            style="width: 33%; display: inline-block; font-weight: bold;">
+                                            <div style="border: 1px solid;">
+                                                <span t-esc="p"/><br/>
+                                            </div>
+                                            <div style="border: 1px solid;">
+                                                <span t-esc="payments[p]"/><br/>
+                                            </div>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </table>
+                            <div class="text-center customer-signature mt16 mb16" style="font-size: initial; font-weight: bold; font-size: 1.2em;">
+                                <span>CUSTOMER SIGNATURE</span><br/><br/>
+                                <span><t t-esc="'.'*25"/></span><br/>
+                                <span>CUSTOMER Mobile</span><br/><br/>
+                                <span><t t-esc="'.'*25"/></span><br/>
+                            </div>
+                            <div class="footer-address text-center" style="font-weight: bold;">
+                                <span>Sharq Al Hamra Luxury Center B1-07</span><br/>
+                                <table width="100%">
+                                    <tr>
+                                        <td><span>rullart.com</span></td>
+                                        <td><span>@rullart</span></td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <span>Thank you for shopping at rullart</span>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

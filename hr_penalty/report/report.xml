@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        
+    <record id="penalty_template_id" model="ir.actions.report">
+        <field name="name">Penalty Template Form</field>
+        <field name="model">hr.penalty</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_penalty.penalty_template</field>
+        <field name="report_file">hr_penalty.penalty_template</field>
+        <field name="binding_model_id" ref="hr_penalty.model_hr_penalty"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- <report
+                string="Penalty Template Form"
+                id="penalty_template_id"
+                model="hr.penalty"
+                report_type="qweb-pdf"
+                name="hr_penalty.penalty_template"
+                file="hr_penalty.penalty_template"
+        /> -->
+    </data>
+</odoo>

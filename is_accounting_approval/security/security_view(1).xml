@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.module.category" id="module_finance_approve_request">
+            <field name="name">Finance Approve Request</field>
+        </record>
+
+        <!-- group of general manager -->
+        <record id="general_manager_access_group" model="res.groups">
+            <field name="name">General Manager</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">General and Deputy Manager</field>-->
+        </record>
+
+        <!-- group of auditor -->
+        <record id="auditor_access_group" model="res.groups">
+            <field name="name">Account Auditor</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">Account Auditor</field>-->
+        </record>
+
+        <!-- group of DB manager approvers -->
+        <record id="db_manager_access_group" model="res.groups">
+            <field name="name">Department Manager</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">Manager</field>-->
+        </record>
+
+        <!-- group of HR manager approvers -->
+        <record id="hr_manager_access_group" model="res.groups">
+            <field name="name">HR Manager</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">Manager</field>-->
+        </record>
+
+        <!-- group of Finance Manager approvers -->
+        <record id="fin_manager_access_group" model="res.groups">
+            <field name="name">Finance Manager</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">Manager</field>-->
+        </record>
+
+        <!-- group of HR manager approvers -->
+        <record id="admin_manager_access_group" model="res.groups">
+            <field name="name">Administration Manager</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">Manager</field>-->
+        </record>
+
+        <!-- group of validator -->
+        <record id="validator_access_group" model="res.groups">
+            <field name="name">Validator</field>
+            <field name="category_id" ref="module_finance_approve_request"/>
+            <!--            <field name="help">Validator</field>-->
+        </record>
+
+        <!-- Record Rules -->
+        <record id="finance_access_rule_all" model="ir.rule">
+            <field name="name">Finance Access Rule</field>
+            <field name="model_id" ref="model_finance_approval"/>
+            <!--<field name="domain_force">['|',('user_id','=',user.id),('manager_id','=',user.id)]</field>-->
+            <field name="domain_force">['|', '|','|',('user_id','=',user.id),('employee_id.user_id','=',user.id),('department_id.manager_id.user_id','=',user.id),
+                '|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="finance_access_rule_all2" model="ir.rule">
+            <field name="name">Administration Access Rule</field>
+            <field name="model_id" ref="model_finance_approval"/>
+            <!--<field name="domain_force">['|',('user_id','=',user.id),('manager_id','=',user.id)]</field>-->
+            <field name="domain_force">[('request_type','=','bus_related_ex')]</field>
+            <field name="groups" eval="[(4, ref('is_accounting_approval_14.admin_manager_access_group'))]"/>
+        </record>
+        <record id="finance_access_rule_approvers" model="ir.rule">
+            <field name="name">Finance Access Rule Approvers</field>
+            <field name="model_id" ref="model_finance_approval"/>
+            <!--<field name="domain_force">[(1,'=',1)]</field>-->
+            <field name="domain_force">['&amp;',(1,'=',1),'|',
+                ('company_id','=',False),('company_id', 'in', company_ids)]</field>
+            <field name="groups"
+                   eval="[(4, ref('is_accounting_approval_14.auditor_access_group')),
+                   (4, ref('is_accounting_approval_14.validator_access_group')),
+                   (4, ref('account.group_account_manager')),
+                   (4, ref('is_accounting_approval_14.fin_manager_access_group')),
+                   (4, ref('is_accounting_approval_14.hr_manager_access_group')),
+                   (4, ref('is_accounting_approval_14.general_manager_access_group'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,95 @@
+<odoo>
+    <data>
+<!--======================================CRON JOBS==========================================-->
+        <record model="ir.cron" id="website_sale_orders_cron">
+            <field name="name">website: Fetch Sales Orders</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_fetch_website_order()</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="ir.cron" id="website_update_quantity_cron">
+            <field name="name">website: Update Product Quantity</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_website_update_quantity()</field>
+            <field name="active" eval="True"/>
+        </record>
+<!--=======================================================================================-->
+        <record id="inherit_account_journal_form_website" model="ir.ui.view">
+            <field name="name">form.account.journal.website</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="website_journal_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="inherit_sale_order_form_website" model="ir.ui.view">
+            <field name="name">form.sale.order.website</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="after">
+                    <field name="website_order_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="inherit_product_template_form_website" model="ir.ui.view">
+            <field name="name">form.product.template.website</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="after">
+                    <field name="website_product_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sale.website_integration</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='ups']" position="after">
+                    <div class="col-12 col-lg-6 o_setting_box" id="website_location">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Website Location</span>
+                            <div class="text-muted">
+                                Location used for website integration
+                            </div>
+                            <div class="text-muted">
+                                <field name="website_location"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <!-- Res Company -->
+          <record id="inherit_res_company_form" model="ir.ui.view">
+            <field name="name">form.res.company.website</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="website" position="after">
+                    <field name="website_url"/>
+                    <field name="website_username"/>
+                    <field name="website_password"/>
+                    <field name="website_location"/>
+                    <field name="website_warehouse"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

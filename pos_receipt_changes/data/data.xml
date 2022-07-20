@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="sale.order.source" id="sale_order_source_instagram">
+            <field name="name">Instagram</field>
+        </record>
+        <record model="sale.order.source" id="sale_order_source_website">
+            <field name="name">Website</field>
+        </record>
+    </data>
+</odoo>

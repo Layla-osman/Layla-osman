@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="penalty_action_domain">
+            <field name="name">Penalty Filter</field>
+            <field name="res_model">hr.penalty</field>
+            <field name="domain">[('employee_id','=',active_id)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_employee_form_penalty_inherit" model="ir.ui.view">
+            <field name="name">view.employee.form.penalty.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="hr_penalty.penalty_action_domain" icon="fa-warning" type="action">
+                        <field name="penalty_count" widget="statinfo" string="Penalty"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_penalty_view_form" model="ir.ui.view">
+            <field name="name">hr.penalty</field>
+            <field name="model">hr.penalty</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight"
+                                states="draft" groups="hr_penalty.group_manager"/>
+                        <button name="action_mail_send" type="object" string="Send Email" groups="hr_penalty.group_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,approve"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="employee_id"
+                                       required="1" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="violation_id" required="1"
+                                       attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="amount" attrs="{'invisible':[('punishment_type','=','warning')]}"/>
+                            </group>
+                            <group>
+                                <field name="violation_date" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="punishment_type" />
+                            </group>
+                            <group>
+                                <field name="company_id" readonly="1"/>
+                                <field name="last_penalty_id" />
+                            </group>
+                        </group>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_penalty_view_tree" model="ir.ui.view">
+            <field name="name">hr.penalty.tree</field>
+            <field name="model">hr.penalty</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="violation_id"/>
+                    <field name="violation_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="penalty_menu_action">
+            <field name="name">Penalty</field>
+            <field name="res_model">hr.penalty</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="hr_penalty_menu" name="Penalty" groups="hr.group_hr_user"
+                     parent="hr_custody.hr_custom_menu"/>
+        <menuitem id="hr_penalty_action" name="Penalty" groups="hr.group_hr_user"
+                   action="penalty_menu_action" sequence="3" parent="hr_penalty_menu"/>
+    </data>
+</odoo>

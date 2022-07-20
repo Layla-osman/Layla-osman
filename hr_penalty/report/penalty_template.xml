@@ -1,0 +1,77 @@
+<odoo>
+
+    <template id="penalty_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="header2">
+                        <center>
+                            <h1>
+                                <strong>Punishment الإجراء الجزائي</strong>
+                            </h1>
+                        </center>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div id="template_introduction" t-field="o.website_description" class="oe_no_empty">
+                    </div>
+                    <br/>
+                    <br/>
+                    <table>
+                        <t t-foreach="o.mail_track.getStateTriggers('hr.penalty',o.id,[['Draft','Confirmed'],['Confirmed','Approved']])"
+                           t-as="track">
+
+                            <tr>
+                                <t t-if="track['state'] == 'Confirmed'">
+                                    <td>
+                                        <strong>Confirmed By:</strong>
+                                        <t t-esc="track['username']"/>
+                                    </td>
+                                    <td>
+                                        <strong>At:</strong>
+                                        <t t-esc="track['date']"/>
+                                    </td>
+                                </t>
+                            </tr>
+
+                            <tr>
+                                <t t-if="track['state'] == 'Approved'">
+                                    <td>
+                                        <strong>Approved By:</strong>
+                                        <t t-esc="track['username']"/>
+                                    </td>
+                                    <td>
+                                        <strong>At:</strong>
+                                        <t t-esc="track['date']"/>
+                                    </td>
+                                </t>
+                            </tr>
+
+                        </t>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="action_report_penaltyy" model="ir.actions.report">
+        <field name="name">Penalty Form</field>
+        <field name="model">hr.penalty</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_penalty.penalty_template</field>
+        <field name="report_file">hr_penalty.penalty_template</field>
+        <field name="binding_model_id" ref="hr_penalty.model_hr_penalty"/>
+        <field name="binding_type">report</field>
+    </record>
+
+<!--     <report 
+            id="action_report_penalty"
+            string="Employee Penalty"
+            model="hr.penalty" 
+            report_type="qweb-pdf"
+            file="hr_penalty.penalty_template" 
+            name="hr_penalty.penalty_template"
+            print_report_name="Employee Penalty"
+        /> -->
+</odoo>

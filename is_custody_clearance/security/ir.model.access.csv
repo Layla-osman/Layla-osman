@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_clearance_a,custody.clearance,is_custody_clearance.model_custody_clearance,base.group_user,1,1,1,0
+access_clearance_b,custody.clearance,is_custody_clearance.model_custody_clearance,is_accounting_approval.auditor_access_group,1,1,1,0
+access_clearance_c,custody.clearance,is_custody_clearance.model_custody_clearance,account.group_account_manager,1,1,1,1
+access_clearance_d,custody.clearance,is_custody_clearance.model_custody_clearance,is_accounting_approval.general_manager_access_group,1,1,1,0
+access_clearance_e,custody.clearance,is_custody_clearance.model_custody_clearance,is_accounting_approval.db_manager_access_group,1,1,1,0
+access_clearance_f,custody.clearance,is_custody_clearance.model_custody_clearance_line,base.group_user,1,1,1,1
+access_clearance_g,custody.clearance,is_custody_clearance.model_custody_clearance_line,is_accounting_approval.auditor_access_group,1,1,1,1
+access_clearance_h,custody.clearance,is_custody_clearance.model_custody_clearance_line,account.group_account_manager,1,1,1,1
+access_clearance_i,custody.clearance,is_custody_clearance.model_custody_clearance_line,is_accounting_approval.general_manager_access_group,1,1,1,1
+access_clearance_j,custody.clearance,is_custody_clearance.model_custody_clearance_line,is_accounting_approval.db_manager_access_group,1,1,1,1
+access_clearance_k,custody.clearance,is_custody_clearance.model_custody_clearance,account.group_account_user,1,1,1,0
+access_clearance_l,custody.clearance,is_custody_clearance.model_custody_clearance_line,account.group_account_user,1,1,1,0

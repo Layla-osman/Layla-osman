@@ -1,0 +1,108 @@
+<odoo>
+    <data>
+        <record id="view_form_res_company_mobile" model="ir.ui.view">
+            <field name="name">form.res.company.mobile</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="phone" position="after">
+                    <field name="mobile"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_form_sale_order_source" model="ir.ui.view">
+            <field name="name">form.sale.order.source</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field name="sale_source"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_form_sale_order_location" model="ir.ui.view">
+            <field name="name">form.sale.order.location</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="after">
+                    <field name="location_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_tree_sale_order_source">
+            <field name="name">tree.sale.order.source</field>
+            <field name="model">sale.order.source</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Hiding cost price from almost all users-->
+        <record id="view_tree_product_product_standard_price" model="ir.ui.view">
+            <field name="name">tree.product.product.standard.price</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="groups">analytic.group_analytic_tags</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="view_form_product_product_standard_price" model="ir.ui.view">
+            <field name="name">form.product.product.standard.price</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="groups">analytic.group_analytic_tags</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="view_form_product_product_standard_price2" model="ir.ui.view">
+            <field name="name">form.product.product.standard.price2</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock_account.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="groups">analytic.group_analytic_tags</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_form_product_template_standard_price" model="ir.ui.view">
+            <field name="name">form.product.template.standard.price</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="groups">analytic.group_analytic_tags</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="view_tree_product_template_standard_price" model="ir.ui.view">
+            <field name="name">tree.product.template.standard.price</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="groups">analytic.group_analytic_tags</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="view_form_pos_config_location" model="ir.ui.view">
+            <field name="name">form.pos.config.form.inherit.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='company']" position="inside">
+                    <label for="mobile_no"/>
+                    <field name="mobile_no"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

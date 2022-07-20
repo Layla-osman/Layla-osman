@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Record Rules -->
+        <record id="custody_access_rule_all" model="ir.rule">
+            <field name="name">Clearance Access Rule</field>
+            <field name="model_id" ref="model_custody_clearance"/>
+<!--            <field name="domain_force">['|',('user_id','=',user.id),('department_id.manager_id.user_id','=',user.id)]</field>-->
+            <field name="domain_force">['|',('user_id','=',user.id),('employee_id.user_id','=',user.id),'|',('department_id.manager_id.user_id','=',user.id),
+                ('company_id','=',False)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="custody_access_rule_approvers" model="ir.rule">
+            <field name="name">Clearance Access Rule ِِِِApprovers</field>
+            <field name="model_id" ref="model_custody_clearance"/>
+            <!--<field name="domain_force">[(1,'=',1)]</field>-->
+            <field name="domain_force">['&amp;',(1,'=',1),'|',
+                ('company_id','=',False),('company_id','child_of',[user.company_id.id])]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('is_accounting_approval.auditor_access_group')),
+                   (4, ref('is_accounting_approval.validator_access_group')),
+                   (4, ref('account.group_account_manager')),
+                   (4, ref('is_accounting_approval.fin_manager_access_group')),
+                   (4, ref('is_accounting_approval.hr_manager_access_group')),
+                   (4, ref('is_accounting_approval.general_manager_access_group'))]"/>
+        </record>
+    </data>
+</odoo>

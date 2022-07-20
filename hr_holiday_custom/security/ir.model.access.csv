@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_holiday_custom_1,hr_holiday_custom_user,model_hr_holiday_custom,base.group_user,1,1,1,0
+access_hr_holiday_custom_2,hr_holiday_custom_manager,model_hr_holiday_custom,hr.group_hr_manager,1,1,1,1
+
+

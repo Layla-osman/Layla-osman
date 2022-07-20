@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="item_card_connect_template">
+            <t t-call="web.html_container">
+                <div dir="ltr" class="article">
+                    <link rel="stylesheet" href="/item_card_printing_common/static/src/css/font.css"/>
+                    <font style="font-family: 'Amiri', 'serif';">
+                        <h4 class="text-center">
+                            <strong>
+                                <span>Products Move in Period From:</span>
+                            </strong>
+                            <t t-esc="from_date"/>
+                            <strong>
+                                <span>To:</span>
+                            </strong>
+                            <t t-esc="to_date"/>
+                            <br/>
+<!--                            <strong>-->
+<!--                                <span>For Product:</span>-->
+<!--                            </strong>-->
+<!--                            <t t-esc="product_name"/>-->
+                            <strong>
+                                <span>For Location:</span>
+                            </strong>
+                            <t t-esc="product_location"/>
+                        </h4>
+                        <br/>
+                        <table class="table table-condensed table-bordered" style="border: 1px solid black;">
+                            <thead>
+                                <tr>
+                                    <td class="text-center" colspan="3" style="width: 35%;border: 1px solid black;">
+
+                                         <t t-esc="product_location"/>
+                                                <strong>
+                                                    :موقع المادة
+                                                </strong>
+                                    </td>
+                                    <td class="text-center" colspan="3" rowspan="4" style="width: 30%;border: 1px solid black;">
+                                        <h1>
+                                            <strong>
+                                                <br/><br/>
+                                                بطاقة مادة
+                                                <br/>
+                                                Item Card
+                                            </strong>
+                                        </h1>
+                                    </td>
+                                    <td class="text-center" colspan="3" style="width: 35%;border: 1px solid black;">
+                                        <strong>
+                                            Location in Store:
+                                        </strong>
+                                         <t t-esc="product_location"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-center" colspan="3" style="border: 1px solid black;">
+                                       <t t-esc="open_stock"/>
+                                            <strong>
+                                                 :الرصيد اﻹفتتاحي
+                                                <br/>
+                                                Opening Balance:
+                                            </strong>
+                                        <t t-esc="open_stock"/>
+                                    </td>
+                                    <td class="text-center" colspan="3" style="border: 1px solid black;"> <t t-esc="closing_stock"/>
+                                        <strong>
+                                            :الرصيد الختامي
+                                            <br/>
+                                            Closing Balance:
+                                        </strong>
+                                        <t t-esc="closing_stock"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                </tr>
+                                <tr>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-center" colspan="9" style="border: 1px solid black;">
+                                        <strong>
+                                            الحركة
+                                            <br/>
+                                            Transaction
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="3" style="border: 1px solid black;">
+                                        <strong>
+                                            إسم المادة
+                                            <br/>
+                                            Product Name
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                        <strong>
+                                            اﻹدخال
+                                            <br/>
+                                            IN
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                        <strong>
+                                            اﻹخراج
+                                            <br/>
+                                            Out
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" colspan="2" style="border: 1px solid black;">
+                                        <strong>
+                                            داخلي
+                                            <br/>
+                                            internal
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" colspan="2" style="border: 1px solid black;">
+                                        <strong>
+                                            الرصيد
+                                            <br/>
+                                            Balance
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="product_r" t-as="pro">
+                                    <tr>
+                                        <td class="text-center" colspan="3" style="border: 1px solid black;">
+                                            <span t-esc="pro['product_name']"/>
+                                        </td>
+                                        <td class="text-center" colspan="1"  style="border: 1px solid black;">
+                                            <span  t-esc="pro['in_qty']"/>
+                                        </td>
+                                        <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                             <span  t-esc="pro['out_qty']"/>
+                                        </td>
+                                        <td class="text-center" colspan="2" style="border: 1px solid black;">
+                                             <span  t-esc="pro['in_internal']"/>
+                                        </td>
+                                        <td class="text-center" colspan="2" style="border: 1px solid black;">
+                                            <span  t-esc="pro['balance']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </font>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

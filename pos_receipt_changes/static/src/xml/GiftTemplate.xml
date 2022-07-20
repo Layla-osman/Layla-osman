@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="GiftTemplate" owl="1">
+        <div class="pos-sale-ticket" style="font-family: Inconsolata;">
+            <div align="center">
+                    <t t-if="receipt.company.logo">
+                        <img class="pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo" width="50%"/><br/>
+                    </t>
+                    <t t-raw="receipt.header"/><br/>
+                    <div class="pos-center-align"><h2>GIFT</h2></div>
+                    <div class="pos-center-align"><strong><u>Invoice</u></strong></div>
+                </div>
+            <table>
+                <tr>
+                    <!--<td>Mob <t t-esc="receipt.company.phone || ''"/></td>-->
+                    <td>TEL <t t-esc="receipt.company.phone || ''"/></td>
+                </tr>
+            </table>
+            <div>No.: <t t-esc="receipt.name.split(' ')[1]"/></div>
+            <div>Date: <t t-esc="receipt.validation_date"/></div>
+            <br/>
+            <table t-if="receipt.client">
+                <tr>
+                    <td>Customer Details:</td>
+                </tr>
+                <tr>
+                    <td>Name: <t t-esc="receipt.client.name || ''"/></td>
+                </tr>
+                 <tr>
+                    <td>Address: <t t-esc="receipt.client.street || ''"/></td>
+                </tr>
+                <tr>
+                    <td>Phone:
+                        <t t-esc="receipt.client.mobile || receipt.client.phone || ''"/>
+                    </td>
+                </tr>
+                <br/>
+            </table>
+            <table class='receipt-orderlines'>
+                <tr class="pos-center-align" style="border-top: 3px double; border-bottom: 3px double; font-weight: bold; width:100% ">
+                    <td style="width:500%;text-align:left;">Item</td>
+                    <td style="width:500%;text-align:right;">qty</td>
+                </tr>
+                <t t-foreach="orderlines" t-as="orderline">
+                    <tr style="font-weight: bold;">
+                        <td><t t-esc="orderline.get_product().default_code"/></td>
+                        <td class="pos-center-align"><t t-esc="orderline.get_quantity()"/></td>
+                    </tr>
+                    <tr><td colspan="2"><t t-esc="orderline.get_product().display_name"/></td></tr>
+                </t>
+            </table>
+            <br/>
+            <div class="receipt-footer-exchange">
+                <span><strong>Exchange &amp; and Refund POLICY</strong></span><br/>
+                <span>Exchange and Refund will happen only when the original receipt is submitted and items purchased
+                    in regular price can be refunded within 15 days</span><br/>
+                <span class="pos-right-align">الاستبدال والاسترجاع من خلال الفاتورة الاصلية في غير فترات العرض التجارية والتنزيلات يكون الاسترجاع والاستبدال خلال خمسة عشر يوما</span>
+            </div><br/>
+            <div  style="font-weight: bold;" align="center">
+                <t t-raw="receipt.footer"/>
+            </div>
+        </div>
+    </t>
+</templates>

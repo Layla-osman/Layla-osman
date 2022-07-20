@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+<!--   inherit to add cash petty  to approval-->
+         <record id="inherited_finance_approval_form1" model="ir.ui.view">
+            <field name="name">finance.approval</field>
+            <field name="name">finance.approval</field>
+            <field name="model">finance.approval</field>
+            <field name="inherit_id" ref="is_accounting_approval.view_finance_approval_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <field name="is_petty_cash" invisible="1" />
+                <field name="limit" invisible="1"/>
+                <field name="acc_approval_amount" invisible="1"/>
+            </xpath>
+            </field>
+         </record>
+
+    </data>
+</odoo>

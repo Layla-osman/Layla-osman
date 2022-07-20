@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_overtime_form_view" model="ir.ui.view">
+        <field name="name">hr.overtime.tree</field>
+        <field name="model">hr.overtime</field>
+        <field name="arch" type="xml">
+            <tree string="Overtime Request">
+                <field name="name"/>
+                <field name="overtime_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_overtime_form1_view" model="ir.ui.view">
+        <field name="name">hr.overtime.form</field>
+        <field name="model">hr.overtime</field>
+        <field name="arch" type="xml">
+            <form string="Overtime Request">
+                <header>
+                    <button string="Approve" name="hr_validate" states="draft" type="object"
+                            class="oe_highlight" groups="overtime_b.group_approval"/>
+                    <button string="Manager Approval" name="finance_validate" groups="overtime_b.group_manager" states="approve"
+                            type="object" class="oe_highlight" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approve,paid"
+                           statusbar_colors='{"draft":"blue","approve":"blue","paid":"blue"}'/>
+                </header>
+                <sheet>
+                    <group string="Overtime" col="4">
+                        <field name="overtime_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </group>
+                    <group col="2">
+                        <field name="is_working_day"
+                               attrs="{'invisible':['|', ('is_holiday','=',True),('is_official_vacation','=',True)],'readonly':[('state','!=','draft')],'required':[('is_holiday','=',False)]}"/>
+                        <field name="is_holiday"
+                               attrs="{'invisible':['|', ('is_working_day','=',True),('is_official_vacation','=',True)],'readonly':[('state','!=','draft')],'required':[('is_working_day','=',False)]}"/>
+                        <field name="is_official_vacation"
+                               attrs="{'invisible':['|', ('is_working_day','=',True),('is_holiday','=',True)],'readonly':[('state','!=','draft')],'required':[('is_official_vacation','=',False)]}"/>
+                        <field name="hours" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="amount" />
+                    </group>
+                    <group string="Employees Information">
+                        <field name="overtime_line_ids">
+                            <tree string="Employees Information" editable="bottom">
+                                <field name="name"/>
+                                <field name="department_id"/>
+                                <field name="employee_salary" />
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <!--attrs="{'invisible':[('state','not in',['confirm','done'])]}"-->
+                            <group col="4" string="Accounting Information">
+                                <field name="overtime_account"
+                                       attrs="{'readonly':[('state','=','done')],'required':[('state','=','approve')]}"/>
+                                <field name="employee_account"
+                                       attrs="{'readonly':[('state','=','done')],'required':[('state','=','approve')]}"/>
+                                <field name="analytic_debit_account_id"/>
+                                <field name="journal_id"
+                                       attrs="{'readonly':[('state','=','done')],'required':[('state','=','approve')]}"/>
+                                <field name="move_id" attrs="{'invisible':[('state','!=','done')]}"/>
+                            </group>
+
+                    <group>
+                        <field name="comment"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="hr_overtime_filter" model="ir.ui.view">
+        <field name="name">hr.overtime.search</field>
+        <field name="model">hr.overtime</field>
+        <field name="arch" type="xml">
+            <search string="Search Trip">
+                <field name="overtime_date"/>
+                <filter string="Working Day Overtime" name="w_d" domain="[('is_working_day','=',True)]"/>
+                <filter string="Holiday Overtime" name="h_o" domain="[('is_holiday','=',True)]"/>
+                <filter string="Official Vacation Overtime" name="h_o" domain="[('is_official_vacation','=',True)]"/>
+                <group col="8" colspan="4" expand="0" string="Group By...">
+                    <filter string="State" name="state" context="{'group_by':'state'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_hr_overtime_request" model="ir.actions.act_window">
+        <field name="name">Overtime Request</field>
+        <field name="res_model">hr.overtime</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr_overtime_filter"/>
+    </record>
+
+    <menuitem name="Overtime"  id="menu_hr_overtime" sequence="10"
+              groups="" parent="hr_custody.hr_custom_menu"/>
+    <menuitem name="Overtime Request" parent="menu_hr_overtime" id="menu_hr_overtime_request"
+              action="action_hr_overtime_request" groups=""/>
+</odoo>

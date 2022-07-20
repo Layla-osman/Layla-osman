@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_finance_approval">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <table class="table" style="direction: ltr; margin-top: -120px">
+                                <tr class="text-center">
+                                    <td colspan="12" >
+                                        <u>
+                                            <h5><strong>Financial Approval</strong></h5>
+                                        </u>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>Financial Approval NO</strong>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left">
+                                        <span t-field="o.approval_no"/>
+                                    </td>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>Date :</strong>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left">
+                                        <span t-field="o.fa_date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>Requester:</strong>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left"
+                                        colspan="3">
+                                        <span t-field="o.requester"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>Amount : </strong>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left"
+                                        colspan="2">
+                                        <t t-esc="'{0:,.2f}'.format(o.request_amount)"/>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left">
+                                        <strong><span t-field="o.request_currency.narration_ar_un"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>Amount in Words :</strong>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left"
+                                        colspan="3">
+                                        <span t-field="o.request_amount_words"/>
+                                    </td>
+                                </tr>
+                                <!--                                <tr>-->
+                                <!--                                    <td style="border: 1 px solid black;">-->
+                                <!--                                        <strong>المستفيد:</strong>-->
+                                <!--                                    </td>-->
+                                <!--                                    <td style="border: 1 px solid black;" class="text-center"-->
+                                <!--                                        colspan="3">-->
+                                <!--                                        <span t-field="o.beneficiary"/>-->
+                                <!--                                    </td>-->
+                                <!--                                </tr>-->
+                                <tr>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>Reason :</strong>
+                                    </td>
+                                    <!--                                                </tr>-->
+                                    <!--                                                <tr>-->
+                                    <td style="border: 1 px solid black;" class="text-left" colspan="3">
+                                        <span t-field="o.reason"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1 px solid black;">
+                                        <strong>From :</strong>
+                                    </td>
+                                    <td style="border: 1 px solid black;" class="text-left"
+                                        colspan="3">
+                                        <span t-field="o.journal_id.name"/>
+                                    </td>
+                                </tr>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <!--                                <tr>-->
+                                <!--                                    &lt;!&ndash;                            <td  style="border: 1 px solid black;" class="text-center">&ndash;&gt;-->
+                                <!--&lt;!&ndash;                                <strong>Requester</strong>&ndash;&gt;-->
+                                <!--&lt;!&ndash;                                <span t-field="o.requester"  style="border: 1 px solid black;" class="text-left"/>&ndash;&gt;-->
+                                <!--&lt;!&ndash;                            </td>&ndash;&gt;-->
+                                <!--                                </tr>-->
+                            </table>
+                            <br/>
+                            <br/>
+                            <table style="width:100%;margin-left:auto;margin-right:auto;font-size: 22px;">
+                                <tr>
+                                    <td align="center">
+                                        <h1>______________</h1>
+                                        <h6><strong>Requester</strong></h6>
+                                        <h6><span t-field="o.requester"  style="border: 1 px solid black;" class="text-left"/></h6>
+                                    </td>
+                                    <td align="center">
+                                        <h1>______________</h1>
+                                        <h6><strong>Petty Cash Holder</strong></h6>
+                                        <h6><span t-field="o.at_app_id.name"  style="border: 1 px solid black;" class="text-left"/></h6>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--                            </group>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

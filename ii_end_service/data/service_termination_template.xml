@@ -1,0 +1,166 @@
+<odoo>
+    <data>
+        <record id="service_termination_template" model="mail.template">
+            <field name="name">Service Termination: Service Termination Template</field>
+            <field name="model_id" ref="hr_service_termination.model_hr_service_termination"/>
+            <field name="body_html" type="html">
+                <font style="font-family:'serif';">
+                    <div style="margin: 0px; padding: 0px;">
+                        <center>
+                            <table width='800'>
+                                <tbody>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            ${object.employee_id.name}
+                                        </td>
+
+                                        <td class="text-right">
+                                            <strong class="text-right">: الاسم</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            ${object.employee_id.contract_id.date_start or ' '}
+                                        </td>
+
+                                        <td class="text-right">
+                                            <strong class="text-right">: تاريخ التعين</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            ${object.employee_id.job_id.name or ' '}
+                                        </td>
+
+                                        <td class="text-right">
+                                            <strong class="text-right">: الوظيفة</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            ${object.employee_id.department_id.name}
+                                        </td>
+
+                                        <td class="text-right">
+                                            <strong class="text-right">: القسم</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            ${object.reason_id.name}
+                                        </td>
+
+                                        <td class="text-right">
+                                            <strong class="text-right">: سبب ترك الوظيفة او الاقالة</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            ${object.termination_date}
+                                        </td>
+
+                                        <td class="text-right">
+                                            <strong class="text-right">: تاريخ ترك الـخدمة او الاقالة</strong>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </center>
+                        <br></br>
+                        <center>
+                            <table width='800'>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-right">
+                                            <p class="text-right">
+
+                                                <strong>: هذا النموذج لتاكيد إنتهاء التعاقد بين</strong>
+                                                <br/>
+                                                و الشركة
+                                                أعتبا را من يوم
+                                                ${object.termination_date}
+                                                ${object.employee_id.job_id.name or ' '} ، ${object.employee_id.name}
+
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-right">
+                                            <br></br>
+                                            <br></br>
+                                            <p class="text-right">
+
+                                                : تواقيع أدارات الاقسام أدناه لتاكيد خلو طرف العامل / الموظف المذكور
+                                                إعلاه من العهد والالتزامات ألاخرى ؛ وفى حال وجود أى التزام يذكر فى
+                                                الجدول ادناه
+
+                                            </p>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </center>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div style="margin: 0px; padding: 0px;">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="border: 1px solid black;">توقيع ادارة القسم</th>
+                                    <th class="text-center" style="border: 1px solid black;">ملحوظات</th>
+                                    <th class="text-center" style="border: 1px solid black;">التخليص من العهد
+                                        واﻹلتزامات
+                                    </th>
+                                    <th class="text-center" style="border: 1px solid black;">القسم</th>
+                                    <th class="text-center" style="border: 1px solid black;">تمت الموافقة بواسطة</th>
+                                    <th class="text-center" style="border: 1px solid black;">الرقم</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                % for department in object.service_termination_clearance_ids:
+                                <tr>
+                                    <td style="border: 1px solid black;"></td>
+                                    <td class="text-center" style="border: 1px solid black;">
+                                        <strong>${department.notes or ' '}</strong>
+                                    </td>
+                                    <td class="text-center" style="border: 1px solid black;">
+                                        % if department.cleared == True:
+                                        <strong>تم التخليص</strong>
+                                        % else:
+                                        <strong>لم يتم التخليص</strong>
+                                        % endif
+                                    </td>
+                                    <td class="text-center" style="border: 1px solid black;">
+                                        <strong>${department.department_id.name}</strong>
+                                    </td>
+                                    <td class="text-center" style="border: 1px solid black;">
+                                        <strong>${department.approve_by.name or ' '}</strong>
+                                    </td>
+
+                                    <td class="text-center" style="border: 1px solid black;">
+                                        <strong>${loop.index}</strong>
+                                    </td>
+                                </tr>
+                                % endfor
+                            </tbody>
+                        </table>
+                    </div>
+                </font>
+            </field>
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+            <!--<field name="user_signature" eval="False"/>-->
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

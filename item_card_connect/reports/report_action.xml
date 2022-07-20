@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <report id="item_card_connect_report"
+            model="stock.move"
+            string="Item Card connect Report"
+            file="item_card_connect.item_card_connect_template"
+            name="item_card_connect.item_card_connect_template"
+            report_type="qweb-pdf"
+            menu="False"
+    />
+
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Custody Clearance Sequence -->
+        <record id="seq_finance_approval" model="ir.sequence">
+            <field name="name">Custody Clearance No.</field>
+            <field name="code">custody.clearance.sequence</field>
+            <field name="prefix">CLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+            <field name="implementation">no_gap</field>
+        </record>
+    </data>
+</odoo>

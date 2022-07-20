@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="GiftScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[contains(@class, 'top-content-center')]" position="before">
+            <div class="button gift" t-on-click="giftTemplate">
+                <i aria-label="Home" class="fa fa-gift" role="img" title="Home"></i> Gift
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class, 'top-content-center')]" position="before">
+            <div class="button print" t-on-click="arabicTemplate">
+                <i aria-label="Home" class="fa fa-print" role="img" title="Home"></i> Arabic
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class, 'pos-receipt-container')]"  position="replace">
+            <div class="pos-receipt-container">
+                <ReceiptTemplate order="currentOrder" t-ref="order-receipt" />
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class, 'pos-receipt-container')]" position="after">
+            <div class="pos-receipt-container" t-if="is_gift==true">
+                <GiftTemplate order="currentOrder" t-ref="order-receipt"  />
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@class, 'pos-receipt-container')]" position="after">
+            <div class="pos-receipt-container" t-if="is_arabic==true">
+                <ArabicTemplate order="currentOrder" t-ref="order-receipt"  />
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@class, 'pos-receipt-container')]" position="attributes">
+                <attribute name="t-if">is_gift==false and is_arabic==false</attribute>
+        </xpath>
+    </t>
+</templates>

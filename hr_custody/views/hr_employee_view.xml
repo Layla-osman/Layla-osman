@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.cron" id="passport_validity_check">
+            <field name="name">HR Employee: Check Passport Validity</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.check_passport_validity()</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record model="ir.ui.view" id="custody_hr_employee_inherit_form_view">
+            <field name="name">hr.employee.form.inherit.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <div class="oe_button_box" position="inside">
+                    <button class="oe_stat_button" name="custody_view" type="object" icon="fa-list-ol">
+                        <field string="Custody" name="custody_count" widget="statinfo"/>
+                    </button>
+                </div>
+                <xpath expr="//field[@name='passport_id']" position="after">
+                        <field name="passport_end_date" groups="hr.group_hr_user"/>
+                </xpath>
+                <xpath expr="//field[@name='country_id']" position="before">
+                        <field name="employee_classification" groups="hr.group_hr_user"/>
+                </xpath>
+                <xpath expr="//field[@name='passport_id']" position="before">
+                        <field name="visa_no" groups="hr.group_hr_user"/>
+                        <field name="visa_expire" groups="hr.group_hr_user"/>
+                </xpath>
+                <xpath expr="//group[@name='has_work_permit']" position="replace">
+                    <group string="Work Permit" name="has_work_permit" attrs="{'invisible': [('employee_classification', '!=', 'citizen')]}">
+                        <field name="permit_no"/>
+                        <field name="work_permit_expiration_date"/>
+                        <field name="has_work_permit"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <menuitem id="hr_custom_menu"
+                  name="Employees Services"
+                  parent="hr.menu_hr_root"
+                  groups="hr.group_hr_manager,hr.group_hr_user,base.group_user"/>
+    </data>
+</odoo>

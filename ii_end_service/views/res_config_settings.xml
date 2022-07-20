@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_res_config_settings_form_inherit2" model="ir.ui.view">
+            <field name="name">view.res.config.settings.form.inherit3</field>
+            <field name="model">res.config.settings</field>
+            <!--This work well with hr_custom module  -->
+<!--            <field name="inherit_id" ref="res_config_settings.res_config_settings_view_form"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='hr_report']/h2" position="after">
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Service Termination Template</span>
+                                <div class="text-muted">
+                                    Choose your Template
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="service_termination_template_id" string="Template"
+                                               class="col-3 col-lg-3 o_light_label"/>
+                                        <field name="service_termination_template_id" class="oe_inline"
+                                               wedgit="many2m"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+
+                <xpath expr="//div[@data-key='hr']" position="inside">
+                    <h2>Department To Clearance</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <!-- <div class="mt16" groups="base.group_no_one"> -->
+                                    <div class="mt16">
+                                        <label for="service_termination_clearance_ids"
+                                               class="col-3 col-lg-3 o_light_label" string="Department"/>
+                                        <field name="service_termination_clearance_ids" class="oe_inline"
+                                               widget="many2many_tags"/>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Service Termination Structure</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="service_termination_strcut_id"
+                                               class="col-3 col-lg-3 o_light_label"/>
+                                        <field name="service_termination_strcut_id" class="oe_inline"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_config_settings_form_inherit" model="ir.ui.view">
+            <field name="name">view.res.config.settings.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Employee" string="Employee" data-key="hr_employee">
+                        <h2>Decision</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="service_termination_clearance_ids" string='As'
+                                                   class="col-lg-3 o_light_label"/>
+                                            <field name="service_termination_clearance_ids" class="oe_inline"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

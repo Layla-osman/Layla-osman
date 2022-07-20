@@ -1,0 +1,16 @@
+<odoo>
+            <record model="ir.module.category" id="model_penalty">
+            <field name="name">Penalty</field>
+        </record>
+        <!-- group of general manager -->
+        <record id="group_manager" model="res.groups">
+            <field name="name">Penalty General Manager</field>
+            <field name="category_id" ref="hr_penalty.model_penalty"/>
+        </record>
+    <record id="penalty_multi_company" model="ir.rule">
+        <field name="name">Penalty global rule</field>
+        <field name="model_id" ref="model_penalty"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
+

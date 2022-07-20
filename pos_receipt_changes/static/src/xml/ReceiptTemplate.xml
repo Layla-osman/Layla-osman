@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ReceiptTemplate" owl="1">
+            <div class="pos-receipt" style="font-family: Inconsolata;">
+                <div align="center">
+                    <t t-if="receipt.company.logo">
+                        <img class="pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo" width="90%"/><br/>
+                    </t>
+                    <t t-raw="receipt.header"/><br/>
+                    <div class="pos-center-align"><strong><u>Invoice</u></strong></div>
+                </div>
+                <table>
+                    <tr>
+                        <td align="left">Mob <t t-esc="env.pos.config.mobile_no"/></td>
+                        <td align="center" style="width:10%"></td>
+                        <td align="right">TEL <t t-esc="receipt.company.phone || ''"/></td>
+                    </tr>
+                </table>
+                <div>No.: <t t-esc="receipt.name.split(' ')[1]"/></div>
+                <div>Date: <t t-esc="receipt.date.localestring"/></div>
+                <br/>
+                <table t-if="receipt.client">
+                    <tr>
+                        <td>Customer Details:</td>
+                    </tr>
+                    <tr>
+                        <td>Name: <t t-esc="receipt.client.name || ''"/></td>
+                    </tr>
+                     <tr>
+                        <td>Address: <t t-esc="receipt.client.street || ''"/></td>
+                    </tr>
+                    <tr>
+                        <td>Phone:
+                            <t t-esc="receipt.client.mobile || receipt.client.phone || ''"/>
+                        </td>
+                    </tr>
+                    <br/>
+                </table>
+                <table class='receipt-orderlines'>
+                    <tr class="pos-center-align"
+                    style="border-top: 3px double; border-bottom: 3px double; font-weight: bold; margin-bottom: ;
+                    width:200%">
+                        <td style="width:40%">Item</td>
+                        <td style="width:10%">qty</td>
+                        <td style="width:20%">price</td>
+                        <td style="width:20%">DIS</td>
+                        <td style="width:40%">VALUE</td>
+                    </tr>
+                    <t t-foreach="orderlines" t-as="orderline">
+                        <tr style="font-weight: bold;">
+                            <td><t t-esc="orderline.get_product().default_code"/></td>
+                            <td class="pos-center-align"><t t-esc="orderline.quantity"/></td>
+                            <td class="pos-center-align"><t t-esc="orderline.price"/></td>
+                            <td class="pos-center-align"><t t-esc="orderline.discount"/></td>
+                            <td class="pos-center-align"><t t-esc="orderline.quantity * orderline.price"/></td>
+                        </tr>
+                        <tr><td colspan="5"><t t-esc="orderline.product_name"/></td></tr>
+                    </t>
+                </table>
+                <br/>
+                <table class='receipt-total pos-center-align' style="font-weight: bold; width: 75%;">
+                    <tr>
+                        <td>Total</td>
+                        <td class="pos-right-align">
+                            <t t-esc="env.pos.format_currency(receipt.subtotal)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>dis</td>
+                        <td class="pos-right-align">
+                            <t t-esc="env.pos.format_currency(receipt.total_discount)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Net</td>
+                        <td class="pos-right-align">
+                            <t t-esc="env.pos.format_currency(receipt.total_with_tax)"/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <table class='receipt-paymentlines' style="display: block;width:1000%;">
+                    <tr>
+                        <t t-foreach="receipt.paymentlines" t-as="line">
+                            <td class="text-center" style="width: 400%; display: inline-block; font-weight: bold; text-align: justify;">
+                                <div style="border: 1px solid;">
+                                    <span t-esc="line.name"/>
+                                    <br/>
+                                </div>
+                                <div style="border: 1px solid;">
+                                    <span t-esc="line.amount"/>
+                                </div>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+                <br/>
+                <div>
+                    <span><strong>Exchange &amp; and Refund POLICY</strong></span>
+                    <br/>
+                    <span>Exchange and Refund will happen only when the original receipt is submitted and items purchased
+                        in regular price can be refunded within 15 days</span>
+                </div>
+                <br/>
+                <div  style="font-weight: bold;" align="center">
+                    <t t-raw="receipt.footer"/>
+                </div>
+            </div>
+    </t>
+</templates>

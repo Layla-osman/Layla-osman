@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        &lt;!&ndash; Updated to add support for financial and general manager approval &ndash;&gt;-->
+<!--        <record model="ir.ui.view" id="inherit_account_voucher_payment_form">-->
+<!--            <field name="name">inherit.account.payment.form</field>-->
+<!--            <field name="model">account.payment</field>-->
+<!--            <field name="inherit_id" ref="account.view_account_payment_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//header/button[@name='post']" position="replace">-->
+<!--                    &lt;!&ndash;<button name="post" class="oe_highlight" attrs="{'invisible':['|','&amp;',('state','not in',['fm_app']),&ndash;&gt;-->
+<!--                    &lt;!&ndash;('payment_type','!=','inbound'),('state','=','posted')]}" string="Confirm" type="object"/>&ndash;&gt;-->
+<!--                    <button name="post" class="oe_highlight" states="au_app" string="Confirm" type="object" />-->
+<!--                </xpath>-->
+<!--&lt;!&ndash;                <field name="state" widget="statusbar" statusbar_visible="draft,posted,reconciled,cancelled"&ndash;&gt;-->
+<!--&lt;!&ndash;                       position="replace">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <field name="state" widget="statusbar"&ndash;&gt;-->
+<!--&lt;!&ndash;                           statusbar_visible="draft,au_app,fm_app,posted,reconciled,cancelled"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </field>&ndash;&gt;-->
+<!--                <xpath expr="//header/button[@name='post']" position="after">-->
+<!--                    <button name="au_app" type="object"-->
+<!--                            string="To reviewer"-->
+<!--                            class="oe_highlight oe_inline"-->
+<!--                            states="draft"-->
+<!--                            />-->
+
+<!--&lt;!&ndash;                    <button name="fm_app" type="object"&ndash;&gt;-->
+<!--&lt;!&ndash;                            string="Financial Manager Approval"&ndash;&gt;-->
+<!--&lt;!&ndash;                            class="oe_highlight oe_inline"&ndash;&gt;-->
+<!--&lt;!&ndash;                            states="au_app"&ndash;&gt;-->
+<!--&lt;!&ndash;                            groups="account.group_account_manager"/>&ndash;&gt;-->
+
+<!--                    &lt;!&ndash;<button name="gm_app" type="object"&ndash;&gt;-->
+<!--                            &lt;!&ndash;string="General Manager Approval"&ndash;&gt;-->
+<!--                            &lt;!&ndash;class="oe_highlight oe_inline"&ndash;&gt;-->
+<!--                            &lt;!&ndash;states="fm_app"&ndash;&gt;-->
+<!--                            &lt;!&ndash;groups="is_accounting_approval.general_manager_access_group"/>&ndash;&gt;-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <!-- Inherited Search view of Journal Vouchers add date search-->
+<!--        <record id="inherited_account_purchase_pay_select" model="ir.ui.view">
+            <field name="name">inherited.account.pay.select</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_search"/>
+            <field name="arch" type="xml">
+                 adding financial and general manager approval 
+                <xpath expr="//field[@name='name']" position="after">
+                    <filter string="Waiting for Reviewer Approval" domain="[('state','=','draft')]"/>
+                    <filter string="Waiting for Financial Manager Approval" domain="[('state','=','au_app')]"/>
+                    <filter string="Waiting for General Manager Approval" domain="[('state','=','fm_app')]"/>
+                </xpath>
+            </field>
+        </record>-->
+
+<!--        <record id="inherited_penotee_account_journal_form" model="ir.ui.view">-->
+<!--            <field name="name">inherited.account.journal.form</field>-->
+<!--            <field name="model">account.journal</field>-->
+<!--            <field name="inherit_id" ref="account.view_account_journal_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                &lt;!&ndash;                adding financial and general manager approval&ndash;&gt;-->
+<!--                <xpath expr="//field[@name='type']" position="after">-->
+<!--                    <field name="payment_method_name" widget="many2many_tags" domain="[('payment_type','=','outbound')]"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>
